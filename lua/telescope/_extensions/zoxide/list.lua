@@ -99,7 +99,7 @@ return function(opts)
 
   local shell_cmd
   if vim.o.shell:match('pwsh') or vim.o.shell:match('powershell') then
-    shell_cmd = { vim.o.shell, '-NoLogo', '-NoProfile', '-Command', cmd }
+    shell_cmd = { vim.o.shell, '-NoLogo', '-NonInteractive', '-NoProfile', '-Command', cmd }
   elseif vim.o.shell:match("cmd") then
     shell_cmd = { vim.o.shell, '/c', cmd }
   else
