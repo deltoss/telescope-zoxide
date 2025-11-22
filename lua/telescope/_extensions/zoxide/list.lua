@@ -96,11 +96,17 @@ return function(opts)
 
   local z_config = require("telescope._extensions.zoxide.config")
   local cmd = z_config.get_config().list_command
-  local shell_arg = "-c"
-  if vim.o.shell == "cmd.exe" then
-    shell_arg = "/c"
+
+  local shell_cmd
+  if vim.o.shell == 'pwsh' or vim.o.shell == 'powershell' then
+    shell_cmd = { vim.o.shell, '-NoLogo', '-NoProfile', '-Command', cmd }
+  elseif vim.o.shell == "cmd.exe" then
+    shell_cmd = { vim.o.shell, '/c', cmd }
+  else
+    shell_cmd = { vim.o.shell, '-c', cmd }
   end
-  opts.cmd = vim.F.if_nil(opts.cmd, {vim.o.shell, shell_arg, cmd})
+
+  opts.cmd = vim.F.if_nil(opts.cmd, shell_cmd)
 
   pickers.new(opts, {
     prompt_title = z_config.get_config().prompt_title,
