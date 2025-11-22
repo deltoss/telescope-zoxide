@@ -98,9 +98,9 @@ return function(opts)
   local cmd = z_config.get_config().list_command
 
   local shell_cmd
-  if vim.o.shell == 'pwsh' or vim.o.shell == 'powershell' then
+  if vim.o.shell:match('pwsh') or vim.o.shell:match('powershell') then
     shell_cmd = { vim.o.shell, '-NoLogo', '-NoProfile', '-Command', cmd }
-  elseif vim.o.shell == "cmd.exe" then
+  elseif vim.o.shell:match("cmd") then
     shell_cmd = { vim.o.shell, '/c', cmd }
   else
     shell_cmd = { vim.o.shell, '-c', cmd }
